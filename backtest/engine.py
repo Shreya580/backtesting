@@ -23,3 +23,10 @@ def run_backtest(data, signal, starting_cash=100_000, cost_per_trade=0.0):
         equity_curve.append(cash + shares * price)
 
     return np.array(equity_curve, dtype=float), trades
+
+def buy_and_hold(data, starting_cash=100_000):
+    """Benchmark: buy as many shares as cash allows on day 1, hold to the end."""
+    prices = data["Close"].values
+    shares = int(starting_cash // prices[0])
+    cash_left = starting_cash - shares * prices[0]
+    return shares * prices + cash_left       # equity curve as an array
